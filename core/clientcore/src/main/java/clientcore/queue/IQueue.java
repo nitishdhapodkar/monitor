@@ -1,4 +1,4 @@
-package clientcore.queue.vo;
+package clientcore.queue;
 
 import java.util.List;
 
