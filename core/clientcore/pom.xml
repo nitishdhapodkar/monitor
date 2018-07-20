@@ -22,11 +22,17 @@
 	</properties>
 
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>com.profesorfalken</groupId>
 			<artifactId>jPowerShell</artifactId>
 			<version>2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>monitor</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>

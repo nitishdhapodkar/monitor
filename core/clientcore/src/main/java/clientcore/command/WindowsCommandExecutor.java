@@ -3,8 +3,8 @@ package clientcore.command;
 import com.profesorfalken.jpowershell.PowerShell;
 import com.profesorfalken.jpowershell.PowerShellResponse;
 
-import clientcore.exceptions.ErrorCode;
 import clientcore.exceptions.SqCommandException;
+import common.exceptions.ErrorCode;
 
 public class WindowsCommandExecutor implements CommandExecutor{
 

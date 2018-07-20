@@ -1,4 +1,4 @@
-package core.util.files;
+package common.util.files;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package core.util.files;
+package common.util.files;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,8 +9,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import clientcore.exceptions.ErrorCode;
-import clientcore.exceptions.SqFileException;
+import common.exceptions.ErrorCode;
+import common.exceptions.SqFileException;
 
 public class FileHandler {
 	

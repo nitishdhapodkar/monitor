@@ -1,4 +1,4 @@
-package clientcore.exceptions;
+package common.exceptions;
 
 public class SqFileException extends Exception{
 

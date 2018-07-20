@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import clientcore.exceptions.ErrorCode;
 import clientcore.exceptions.SqQueueException;
+import common.exceptions.ErrorCode;
 
 public class SqQueue<E> implements IQueue<E>{
 
