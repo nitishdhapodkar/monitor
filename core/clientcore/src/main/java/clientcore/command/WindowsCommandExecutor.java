@@ -4,7 +4,7 @@ import com.profesorfalken.jpowershell.PowerShell;
 import com.profesorfalken.jpowershell.PowerShellResponse;
 
 import clientcore.exceptions.SqCommandException;
-import common.exceptions.ErrorCode;
+import common.constants.ErrorCode;
 
 public class WindowsCommandExecutor implements CommandExecutor{
 

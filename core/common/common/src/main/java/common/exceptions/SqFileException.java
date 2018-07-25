@@ -1,5 +1,7 @@
 package common.exceptions;
 
+import common.constants.ErrorCode;
+
 public class SqFileException extends Exception{
 
 	private final ErrorCode code;

@@ -1,6 +1,6 @@
 package clientcore.exceptions;
 
-import common.exceptions.ErrorCode;
+import common.constants.ErrorCode;
 
 public class SqPropertyException extends Exception{
 	
