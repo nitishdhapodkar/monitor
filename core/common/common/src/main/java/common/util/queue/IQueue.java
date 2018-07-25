@@ -1,8 +1,8 @@
-package clientcore.queue;
+package common.util.queue;
 
 import java.util.List;
 
-import clientcore.exceptions.SqQueueException;
+import common.exceptions.SqQueueException;
 
 public interface IQueue<E> {
 	

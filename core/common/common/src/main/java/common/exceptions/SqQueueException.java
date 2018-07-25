@@ -1,4 +1,4 @@
-package clientcore.exceptions;
+package common.exceptions;
 
 import common.exceptions.ErrorCode;
 

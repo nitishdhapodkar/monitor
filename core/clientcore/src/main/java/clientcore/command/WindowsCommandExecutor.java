@@ -14,7 +14,7 @@ public class WindowsCommandExecutor implements CommandExecutor{
 		
 		try {
 			PowerShellResponse response = PowerShell.executeSingleCommand(command);
-			consoleOut = response.getCommandOutput().toString().toLowerCase();
+			consoleOut = response.getCommandOutput().toString();
 
 		} catch (Exception e) {
 			throw new SqCommandException("Error in executing command :" + command, e, ErrorCode.COMMAND_EXECUTION);
@@ -22,5 +22,5 @@ public class WindowsCommandExecutor implements CommandExecutor{
 		
 		return consoleOut;
 	}
-
+	
 }
