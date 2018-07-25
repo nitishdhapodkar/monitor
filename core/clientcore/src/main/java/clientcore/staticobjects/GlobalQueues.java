@@ -1,10 +1,9 @@
 package clientcore.staticobjects;
 
+import clientcore.command.CommandVO;
 import common.util.queue.IQueue;
 
 public class GlobalQueues {
 
-	public static IQueue<String> commandInQueue;
-	
-	public static IQueue<String> commandOutQueue;
+	public static IQueue<CommandVO> commandQueue;
 }

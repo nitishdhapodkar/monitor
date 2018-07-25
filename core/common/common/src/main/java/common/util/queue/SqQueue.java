@@ -2,10 +2,12 @@ package common.util.queue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.concurrent.SynchronousQueue;
 
 import common.constants.ErrorCode;
 import common.exceptions.SqQueueException;
@@ -19,14 +21,21 @@ public class SqQueue<E> implements IQueue<E>{
 	}
 
 	@Override
-	public synchronized void sendMessage(String queueName, E Message) throws SqQueueException{
+	public synchronized void sendMessage(String queueName, E message) throws SqQueueException{
 		
 		try {
 			
 			if(queue.get(queueName) == null) {
-				queue.put(queueName, new PriorityQueue<E>());
+				queue.put(queueName, new LinkedList<E>());
 			} 
-			queue.get(queueName).add(Message);
+			
+//			Queue<E> q = new PriorityQueue<E>();
+//			q.add(message);
+//			for(E m1 : queue.get(queueName)) {
+//				q.add(m1);
+//			}
+//			queue.put(queueName, q);
+			queue.get(queueName).add(message);
 			
 		} catch (Exception e) {
 			throw new SqQueueException("Error in adding new message to queue (name) : " + queueName, ErrorCode.QUEUE_ADD);
@@ -53,7 +62,7 @@ public class SqQueue<E> implements IQueue<E>{
 		try {
 			
 			if(queue.get(queueName) == null) {
-				queue.put(queueName, new PriorityQueue<E>());
+				queue.put(queueName, new LinkedList<E>());
 			} 
 			for(E message : messages) {
 				queue.get(queueName).add(message);
@@ -85,6 +94,21 @@ public class SqQueue<E> implements IQueue<E>{
 			
 		} catch (Exception e) {
 			throw new SqQueueException("Error in removing messages from qurue (name) :" + queueName  , ErrorCode.QUEUE_ADD);
+		}
+	}
+
+	@Override
+	public boolean isEmpty(String queueName) throws SqQueueException {
+		try {
+			
+			if(queue.get(queueName) == null) {
+				throw new SqQueueException("Queue name is not valid (name) : " + queueName, ErrorCode.QUEUE_REMOVE);
+			}  else {
+				return queue.get(queueName).isEmpty();
+			}
+			
+		} catch (Exception e) {
+			throw new SqQueueException("Error in removing message from qurue (name) :" + queueName, ErrorCode.QUEUE_REMOVE);
 		}
 	}
 	

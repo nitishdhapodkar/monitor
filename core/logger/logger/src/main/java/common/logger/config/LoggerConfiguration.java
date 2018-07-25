@@ -5,11 +5,11 @@ import org.pmw.tinylog.Level;
 import org.pmw.tinylog.Logger;
 import org.pmw.tinylog.writers.FileWriter;
 
-public class Setup {
+public class LoggerConfiguration {
 	
 	public static void init() {
 		Configurator.defaultConfig()
-		   .writer(new FileWriter("d:\test.log"))
+		   .writer(new FileWriter("application.log"))
 		   .level(Level.WARNING)
 		   .activate();
 	}
@@ -19,10 +19,5 @@ public class Setup {
 		   .writer(new FileWriter("test.log"))
 		   .level(level)
 		   .activate();
-	}
-	
-	public static void main(String[] args) {
-		Logger.warn("12");
-		Logger.info("12");
 	}
 }
