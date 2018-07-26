@@ -1,14 +1,12 @@
 package clientcore.command;
 
-import java.util.List;
+import java.util.Date;
 
 import org.pmw.tinylog.Logger;
 
-import clientcore.constants.CommandType;
 import clientcore.constants.QueueNames;
 import clientcore.exceptions.SqCommandException;
 import clientcore.staticobjects.GlobalQueues;
-import clientcore.staticobjects.Startup;
 import common.exceptions.SqQueueException;
 
 public class CommandPocesser {
@@ -22,6 +20,7 @@ public class CommandPocesser {
 				commandExecutor = new WindowsCommandExecutor();
 				String output = commandExecutor.executeCommand(cmdToExecute.getCommand());
 				cmdToExecute.setOutput(output);
+				cmdToExecute.setDate(new Date());
 				GlobalQueues.commandQueue.sendMessage(QueueNames.COMMAND_OUT.toString(), cmdToExecute);
 			}
 		} catch (SqQueueException e) {

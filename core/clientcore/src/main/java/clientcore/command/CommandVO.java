@@ -1,10 +1,14 @@
 package clientcore.command;
 
+import java.util.Date;
+
 import clientcore.constants.CommandType;
 
 public class CommandVO {
 	
 	private String command;
+	
+	private Date date;
 	
 	private CommandType commandType;
 	
@@ -13,10 +17,19 @@ public class CommandVO {
 	public CommandVO(String command, CommandType commandType) {
 		this.command = command;
 		this.commandType = commandType;
+		this.date = new Date();
 	}
 
 	public String getCommand() {
 		return command;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public void setCommand(String command) {
