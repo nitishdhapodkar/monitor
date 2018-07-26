@@ -30,26 +30,4 @@ public class CommandPocesser {
 			Logger.error(e.getMessage());
 		}
 	}
-	
-	public static void main(String[] args) {
-		try {
-			Startup.init();
-			CommandVO cmdToExecute = new CommandVO("dir d:\\temp", CommandType.DIR);
-			GlobalQueues.commandQueue.sendMessage(QueueNames.COMMAND_IN.toString(), cmdToExecute);
-			
-			CommandVO cmdToExecute2 = new CommandVO("dir d:\\temp", CommandType.DIR);
-			GlobalQueues.commandQueue.sendMessage(QueueNames.COMMAND_IN.toString(), cmdToExecute2);
-			
-			new CommandPocesser().processInputQueue();
-			
-			List<CommandVO> results = GlobalQueues.commandQueue.getAllMessages(QueueNames.COMMAND_OUT.toString());
-			for(CommandVO result : results) {
-				System.out.println(result.getOutput());
-			}
-			
-		} catch (SqQueueException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
