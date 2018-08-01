@@ -11,16 +11,13 @@ public class DeviceVo {
 	private String manufaturer;
 	
 	private String location;
-	
-	private DriverVo driver;
 
-	public DeviceVo(String id, String name, String deviceType, String manufaturer, String location, DriverVo driver) {
+	public DeviceVo(String id, String name, String deviceType, String manufaturer, String location) {
 		this.id = id;
 		this.name = name;
 		this.deviceType = deviceType;
 		this.manufaturer = manufaturer;
 		this.location = location;
-		this.driver = driver;
 	}
 
 	public String getId() {
@@ -62,12 +59,7 @@ public class DeviceVo {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	
 
-	public DriverVo getDriver() {
-		return driver;
-	}
-
-	public void setDriver(DriverVo driver) {
-		this.driver = driver;
-	}
+	
 }
