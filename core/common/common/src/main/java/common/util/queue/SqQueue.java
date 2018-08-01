@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.concurrent.SynchronousQueue;
 
 import common.constants.ErrorCode;
 import common.exceptions.SqQueueException;
@@ -29,12 +27,6 @@ public class SqQueue<E> implements IQueue<E>{
 				queue.put(queueName, new LinkedList<E>());
 			} 
 			
-//			Queue<E> q = new PriorityQueue<E>();
-//			q.add(message);
-//			for(E m1 : queue.get(queueName)) {
-//				q.add(m1);
-//			}
-//			queue.put(queueName, q);
 			queue.get(queueName).add(message);
 			
 		} catch (Exception e) {

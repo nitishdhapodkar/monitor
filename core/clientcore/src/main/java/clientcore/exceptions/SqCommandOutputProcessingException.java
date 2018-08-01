@@ -4,6 +4,7 @@ import common.constants.ErrorCode;
 
 public class SqCommandOutputProcessingException extends Exception{
 	
+	private static final long serialVersionUID = -4357348051334025470L;
 	private final ErrorCode code;
 
 	public SqCommandOutputProcessingException(ErrorCode code) {

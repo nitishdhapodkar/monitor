@@ -4,6 +4,7 @@ import common.constants.ErrorCode;
 
 public class SqPropertyException extends Exception{
 	
+	private static final long serialVersionUID = -3597511029617115564L;
 	private final ErrorCode code;
 
 	public SqPropertyException(ErrorCode code) {
