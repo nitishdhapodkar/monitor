@@ -5,12 +5,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
-public class DBFileHandler<E> {
+import common.constants.ErrorCode;
+import common.exceptions.SqInmenoryDBException;
+
+public class DBFileHandler {
 	
-	public void writeObjects(List<E> objects, String fileName) {
+	public void writeObject(List<Object> objects, String fileName) throws SqInmenoryDBException {
 		
 		FileOutputStream fileOutputStream;
 		ObjectOutputStream objectOutputStream;
@@ -20,7 +24,7 @@ public class DBFileHandler<E> {
 			fileOutputStream = new FileOutputStream(fileName);
 			objectOutputStream = new ObjectOutputStream(fileOutputStream);
 			
-			for(E object : objects) {
+			for(Object object : objects) {
 				objectOutputStream.writeObject(object);
 			}
 
@@ -28,13 +32,34 @@ public class DBFileHandler<E> {
 			fileOutputStream.close();
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			throw new SqInmenoryDBException("Error while writing objects in file", e, ErrorCode.DATABASE_WRITE);
 		}
 		
 	}
 	
-	public List<E> readObjects(String fileName) {
-		List<E> objects = null;
+	public void writeObject(Map<String, Object> object, String fileName) throws SqInmenoryDBException {
+		
+		FileOutputStream fileOutputStream;
+		ObjectOutputStream objectOutputStream;
+		
+		try {
+			
+			fileOutputStream = new FileOutputStream(fileName);
+			objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectOutputStream.writeObject(object);
+
+			objectOutputStream.close();
+			fileOutputStream.close();
+			
+		} catch (Exception e) {
+			throw new SqInmenoryDBException("Error while writing objects in file", e, ErrorCode.DATABASE_WRITE);
+		}
+		
+	}
+	
+	@SuppressWarnings({ "resource" })
+	public List<Object> readObjects(String fileName) throws SqInmenoryDBException {
+		List<Object> objects = null;
 		
 		FileInputStream fileInputStream = null;
 		ObjectInputStream oInputStream = null;
@@ -43,15 +68,54 @@ public class DBFileHandler<E> {
 			fileInputStream = new FileInputStream(new File(fileName));
 			oInputStream = new ObjectInputStream(fileInputStream);
 			
-//			while(oInputStream.readObject()) {
-//				
-//			}
+			Object object;
+			while( ( object = (Object) oInputStream.readObject() ) != null) {
+				
+				if( objects == null ) {
+					objects = new ArrayList<>();
+				}
+				objects.add(object);
+			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			throw new SqInmenoryDBException("Error while reading objects from file", e, ErrorCode.DATABASE_WRITE);
 		}
 		
 		return objects;
+	}
+	
+	@SuppressWarnings({ "unchecked", "resource" })
+	public Map<String, Object> readObject(String fileName) throws SqInmenoryDBException {
+		Map<String, Object> object = null;
+		
+		FileInputStream fileInputStream = null;
+		ObjectInputStream oInputStream = null;
+		
+		try {
+			fileInputStream = new FileInputStream(new File(fileName));
+			oInputStream = new ObjectInputStream(fileInputStream);
+			
+			object = (Map<String, Object>) oInputStream.readObject();
+		} catch (Exception e) {
+			throw new SqInmenoryDBException("Error while reading objects from file", e, ErrorCode.DATABASE_WRITE);
+		}
+		
+		return object;
+	}
+	
+	public void deleteFile(String fileName) throws SqInmenoryDBException {
+		
+		try {
+			
+    		File file = new File(fileName);
+        	
+    		if(!file.delete()){
+    			throw new SqInmenoryDBException("Error while deleting file", ErrorCode.DATABASE_DELETE);
+    		}
+    	   
+    	}catch(Exception e){
+    		throw new SqInmenoryDBException("Error while deleting file", e, ErrorCode.DATABASE_DELETE);
+    	}
 	}
 
 }
