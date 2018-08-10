@@ -80,6 +80,31 @@ public class RandomFileUtil {
 
 		return record;
 	}
+	
+	private Object readObjectFromRandomAccessFile(String file, long position) throws RandomAccessFileException {
+		Object record = null;
+		try {
+			
+			byte[] bytes = null;
+			RandomAccessFile fileStore = new RandomAccessFile(file, "r");
+			fileStore.seek(position);
+			int noOfBytesRead = fileStore.read(bytes);
+			
+			if( noOfBytesRead > 0 ) {
+				record = ByteUtil.toObject(bytes);
+			}
+			fileStore.close();
+
+		} catch (EOFException e) {
+			return null;
+		} catch (IOException e) {
+			throw new RandomAccessFileException("Error reading random access file", e, ErrorCode.RANDOM_ACCESS_FILE_READ);
+		} catch (Exception e) {
+			throw new RandomAccessFileException("Error converting bytes to Object", e, ErrorCode.RANDOM_ACCESS_FILE_READ);
+		}
+
+		return record;
+	}
 
 	private void writeToRandomAccessFile(String file, String record) throws RandomAccessFileException {
 		try {
@@ -90,6 +115,22 @@ public class RandomFileUtil {
 			writeIndex(position);
 			fileStore.seek(position);
 			fileStore.writeUTF(record);
+			fileStore.close();
+
+		} catch (IOException e) {
+			throw new RandomAccessFileException("Error writing random access file", e, ErrorCode.RANDOM_ACCESS_FILE_WRITE);
+		}
+	}
+	
+	private void writeToRandomAccessFile(String file, Object record) throws RandomAccessFileException {
+		try {
+			
+			RandomAccessFile fileStore = new RandomAccessFile(file, "rw");
+			
+			long position = fileStore.length();
+			writeIndex(position);
+			fileStore.seek(position);
+			fileStore.write(ByteUtil.toByteArray(record));
 			fileStore.close();
 
 		} catch (IOException e) {
