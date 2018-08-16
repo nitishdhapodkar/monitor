@@ -1,10 +1,11 @@
-package common.util.schedule;
+package clientcore.output.processor;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import common.exceptions.SqCronResolverException;
+import common.jobs.CronJob;
 
 public class JobProcesser {
 

@@ -3,6 +3,7 @@ package clientcore.command;
 import java.util.Date;
 
 import clientcore.constants.CommandType;
+import clientcore.exceptions.SqCommandOutputProcessingException;
 
 public class CommandOutputVo {
 	
@@ -40,6 +41,19 @@ public class CommandOutputVo {
 		this.date = commandVO.getDate();
 		this.commandType = commandVO.getCommandType();
 		this.formatedOutput = new ListOutputVo();
+	}
+	
+	public CommandOutputVo(CommandVO commandVO, String commandOutput) {
+		this.command = commandVO.getCommand();
+		this.date = commandVO.getDate();
+		this.commandType = commandVO.getCommandType();
+		
+		OutputProcessor outputProcessor = new OutputProcessor();
+		try {
+			this.formatedOutput = new ListOutputVo(outputProcessor.processFormatedList(commandOutput));
+		} catch (SqCommandOutputProcessingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String getCommand() {

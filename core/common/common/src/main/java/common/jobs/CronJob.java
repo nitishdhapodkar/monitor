@@ -1,4 +1,4 @@
-package common.util.schedule;
+package common.jobs;
 
 public class CronJob {
 
@@ -11,6 +11,8 @@ public class CronJob {
 	private String cronExpresstion;
 	
 	private String dataTemplate;
+	
+	private String command;
 
 	public CronJob(String id, String name, String description, String cronExpresstion, String dataTemplate) {
 		this.id = id;
@@ -18,6 +20,15 @@ public class CronJob {
 		this.description = description;
 		this.cronExpresstion = cronExpresstion;
 		this.dataTemplate = dataTemplate;
+	}
+
+	public CronJob(String id, String name, String description, String cronExpresstion, String dataTemplate, String command) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.cronExpresstion = cronExpresstion;
+		this.dataTemplate = dataTemplate;
+		this.command = command;
 	}
 
 	public String getId() {
@@ -58,5 +69,13 @@ public class CronJob {
 
 	public void setDataTemplate(String dataTemplate) {
 		this.dataTemplate = dataTemplate;
+	}
+
+	public String getCommand() {
+		return command;
+	}
+
+	public void setCommand(String command) {
+		this.command = command;
 	}
 }

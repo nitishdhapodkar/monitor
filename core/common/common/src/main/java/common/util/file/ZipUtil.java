@@ -18,73 +18,82 @@ import common.database.io.DatabaseUtil;
 
 public class ZipUtil {
 	
-//	public static void main(String[] args) throws IOException {
-//		Map<String, String> env = new HashMap<>(); 
-//		env.put("create", "true");
-//		Path path = Paths.get("D:\\temp\\zipdb\\test.zip");
-//		URI uri = URI.create("jar:" + path.toUri());
-//		try (FileSystem fs = FileSystems.newFileSystem(uri, env))
-//		{
-//			for(int i = 0; i < 10; i ++) {
-//				Path nf = fs.getPath(DatabaseUtil.getNewId());
-//			    try (Writer writer = Files.newBufferedWriter(nf, StandardCharsets.UTF_8, StandardOpenOption.CREATE)) {
-//			        writer.write(DatabaseUtil.getNewId());
-//			    }
-//			    if( (i % 10000) == 0) {
-//			    	System.out.println(i);
-//			    }
-//			}
-//		    
-//		}
-//	}
+	private static FileSystem fs;
 	
-	public static void addFile(String zipFilePath, String fileName, String content) {
+	private static void initDatabase(String zipFilePath) {
 		
 		Map<String, String> env = new HashMap<>(); 
 		env.put("create", "true");
 		Path path = Paths.get(zipFilePath);
 		URI uri = URI.create("jar:" + path.toUri());
-		try (FileSystem fs = FileSystems.newFileSystem(uri, env))
-		{
+		try {
+			fs = FileSystems.newFileSystem(uri, env);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void closeDatabase() {
+		try {
+			fs.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static synchronized void addFile(String fileName, String content) {
+		
+		try {
 			Path nf = fs.getPath(fileName);
 		    try (Writer writer = Files.newBufferedWriter(nf, StandardCharsets.UTF_8, StandardOpenOption.CREATE)) {
 		        writer.write(content);
 		    }
 		    
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
-	public static String readFile(String zipFilePath, String fileName) {
+	public static synchronized String readFile(String zipFilePath, String fileName) {
 		
-		Map<String, String> env = new HashMap<>(); 
-		env.put("create", "true");
-		Path path = Paths.get(zipFilePath);
-		URI uri = URI.create("jar:" + path.toUri());
 		String fileBytes = null;
-		try (FileSystem fs = FileSystems.newFileSystem(uri, env))
-		{
+		try {
 			Path nf = fs.getPath(fileName);
 		    try (BufferedReader bufferedReader = Files.newBufferedReader(nf, StandardCharsets.UTF_8)) {
 		    	fileBytes = bufferedReader.readLine();
 		    }
 		    
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				fs.close();
+			} catch (Exception e) {
+				fs = null;
+			}
 		}
 		
 		return fileBytes;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
-		for(int i = 0; i < 100; i++) {
+		initDatabase("D:\\temp\\zipdb\\test.zip");
+		
+		for(int i = 0; i < 100000; i++) {
 			String fileName = DatabaseUtil.getNewId();
-			addFile("D:\\temp\\zipdb\\test.zip", fileName, "test content.........." + DatabaseUtil.getNewId());
-			String data = readFile("D:\\temp\\zipdb\\test.zip", fileName);
-			System.out.println(data);
+			StringBuffer content = new StringBuffer();
+			for( int j = 0; j < 100000; j++) {
+				content.append(DatabaseUtil.getNewId());
+			}
+			addFile(fileName, content.toString());
+			System.out.println(i);
+//			Thread.sleep(500);
+//			String data = readFile("D:\\temp\\zipdb\\test.zip", fileName);
+//			System.out.println(data);
 		}
+		closeDatabase();
 		
 	}
 

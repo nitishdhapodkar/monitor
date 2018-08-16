@@ -1,4 +1,4 @@
-package common.util.schedule;
+package clientcore.output.processor;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import org.quartz.CronExpression;
 
 import common.constants.ErrorCode;
 import common.exceptions.SqCronResolverException;
+import common.jobs.CronJob;
 
 public class CornResolver {
 
