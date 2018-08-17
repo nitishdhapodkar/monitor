@@ -2,8 +2,8 @@ package clientcore.command;
 
 import java.util.Date;
 
-import clientcore.constants.CommandType;
 import clientcore.exceptions.SqCommandOutputProcessingException;
+import common.jobs.CommandType;
 
 public class CommandOutputVo {
 	

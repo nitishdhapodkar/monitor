@@ -4,7 +4,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import clientcore.command.CommandVO;
+import clientcore.constants.QueueNames;
+import clientcore.staticobjects.GlobalQueues;
 import common.exceptions.SqCronResolverException;
+import common.exceptions.SqQueueException;
 import common.jobs.CronJob;
 
 public class JobProcesser {
@@ -15,8 +19,8 @@ public class JobProcesser {
 
 	public JobProcesser(List<CronJob> cronJobs) throws SqCronResolverException {
 		this.cronJobs = cronJobs;
-		CornResolver cornResolver = new CornResolver();
-		this.nextJobTimes = cornResolver.getNextDate(cronJobs);
+		CronResolver cronResolver = new CronResolver();
+		this.nextJobTimes = cronResolver.getNextDate(cronJobs);
 		this.init();
 	}
 
@@ -28,14 +32,22 @@ public class JobProcesser {
 		return nextJobTimes;
 	}
 	
-	private void init() {
-		for(String jobId : nextJobTimes.keySet()) {
-			
-			Date currentDate = new Date();
-			if(nextJobTimes.get(jobId).before(currentDate)) {
+	private void init()  {
+		
+		try {
+			for(String jobId : nextJobTimes.keySet()) {
 				
-				executeJob(getCronJob(jobId));
+				Date currentDate = new Date();
+				CronResolver cronResolver = new CronResolver();
+				
+				if(nextJobTimes.get(jobId).before(currentDate)) {
+					executeJob(getCronJob(jobId));
+					nextJobTimes.put(jobId, cronResolver.getNextDate(getCronJob(jobId).getCronExpresstion()));
+				}
 			}
+		} catch (SqCronResolverException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -52,5 +64,13 @@ public class JobProcesser {
 	
 	private void executeJob(CronJob cronJob) {
 		
+		try {
+			CommandVO cmdToExecute = new CommandVO(cronJob.getCommand().getInstruction(), cronJob.getCommand().getCommandType());
+			GlobalQueues.commandQueue.sendMessage(QueueNames.COMMAND_IN.toString(), cmdToExecute);
+		} catch (SqQueueException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
 }

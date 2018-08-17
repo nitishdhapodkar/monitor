@@ -6,12 +6,12 @@ import java.util.Map;
 import clientcore.command.CommandPocesser;
 import clientcore.command.CommandVO;
 import clientcore.command.OutputProcessor;
-import clientcore.constants.CommandType;
 import clientcore.constants.QueueNames;
 import clientcore.exceptions.SqCommandOutputProcessingException;
 import clientcore.staticobjects.GlobalQueues;
 import clientcore.staticobjects.Startup;
 import common.exceptions.SqQueueException;
+import common.jobs.CommandType;
 
 public class Processor {
 	public static void main(String[] args) {

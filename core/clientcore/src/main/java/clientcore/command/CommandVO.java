@@ -2,7 +2,8 @@ package clientcore.command;
 
 import java.util.Date;
 
-import clientcore.constants.CommandType;
+import common.jobs.CommandType;
+
 
 public class CommandVO {
 	

@@ -11,7 +11,7 @@ import common.constants.ErrorCode;
 import common.exceptions.SqCronResolverException;
 import common.jobs.CronJob;
 
-public class CornResolver {
+public class CronResolver {
 
 	public Date getNextDate(String cornString) throws SqCronResolverException{
 		
@@ -87,7 +87,7 @@ public class CornResolver {
 		return nextJobTime;
 	}
 	public static void main(String[] args) {
-		CornResolver cornResolver = new CornResolver();
+		CronResolver cornResolver = new CronResolver();
 		try {
 			System.out.println(new Date().toString());
 			Date nextDate = cornResolver.getNextDate("0 0/10 * * * ?");
