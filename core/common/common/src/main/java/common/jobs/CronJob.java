@@ -1,8 +1,12 @@
 package common.jobs;
 
+import java.io.Serializable;
+
 import common.database.io.DatabaseUtil;
 
-public class CronJob {
+public class CronJob implements Serializable {
+
+	private static final long serialVersionUID = -2721663438729562138L;
 
 	private String id;
 	

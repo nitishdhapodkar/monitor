@@ -1,5 +1,6 @@
 package common.database.io;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -59,6 +60,7 @@ public class DBFileHandler {
 	
 	@SuppressWarnings({ "resource" })
 	public List<Object> readObjects(String fileName) throws SqInmenoryDBException {
+		
 		List<Object> objects = null;
 		
 		FileInputStream fileInputStream = null;
@@ -68,8 +70,8 @@ public class DBFileHandler {
 			fileInputStream = new FileInputStream(new File(fileName));
 			oInputStream = new ObjectInputStream(fileInputStream);
 			
-			Object object;
-			while( ( object = (Object) oInputStream.readObject() ) != null) {
+			Object object = null;
+			while( ( object = oInputStream.readObject() ) != null) {
 				
 				if( objects == null ) {
 					objects = new ArrayList<>();
@@ -77,6 +79,8 @@ public class DBFileHandler {
 				objects.add(object);
 			}
 			
+		} catch (EOFException e) {
+			// TODO: handle exception
 		} catch (Exception e) {
 			throw new SqInmenoryDBException("Error while reading objects from file", e, ErrorCode.DATABASE_WRITE);
 		}

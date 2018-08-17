@@ -2,6 +2,8 @@ package clientcore.command;
 
 import java.util.Date;
 
+import com.google.gson.Gson;
+
 import clientcore.exceptions.SqCommandOutputProcessingException;
 import common.jobs.CommandType;
 
@@ -86,5 +88,10 @@ public class CommandOutputVo {
 
 	public void setFormatedOutput(ListOutputVo formatedOutput) {
 		this.formatedOutput = formatedOutput;
+	}
+	
+	public String toJSON() {
+		
+		return new Gson().toJson(this);
 	}
 }

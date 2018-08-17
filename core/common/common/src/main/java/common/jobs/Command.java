@@ -1,6 +1,10 @@
 package common.jobs;
 
-public class Command {
+import java.io.Serializable;
+
+public class Command implements Serializable {
+
+	private static final long serialVersionUID = 4125423074126653540L;
 
 	private CommandType commandType;
 	

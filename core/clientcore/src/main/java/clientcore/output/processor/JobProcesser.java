@@ -1,5 +1,6 @@
 package clientcore.output.processor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,11 +18,10 @@ public class JobProcesser {
 	
 	private Map<String, Date> nextJobTimes;
 
-	public JobProcesser(List<CronJob> cronJobs) throws SqCronResolverException {
-		this.cronJobs = cronJobs;
+	public JobProcesser(List<Object> cronJobs) throws SqCronResolverException {
+		this.cronJobs =  convertToJobs(cronJobs);
 		CronResolver cronResolver = new CronResolver();
-		this.nextJobTimes = cronResolver.getNextDate(cronJobs);
-		this.init();
+		this.nextJobTimes = cronResolver.getNextDate(this.cronJobs);
 	}
 
 	public List<CronJob> getCronJobs() {
@@ -32,9 +32,10 @@ public class JobProcesser {
 		return nextJobTimes;
 	}
 	
-	private void init()  {
+	public void startProcessingJobs()  {
 		
 		try {
+			
 			for(String jobId : nextJobTimes.keySet()) {
 				
 				Date currentDate = new Date();
@@ -71,6 +72,21 @@ public class JobProcesser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	
+	private List<CronJob> convertToJobs(List<Object> objects) {
+		
+		List<CronJob> cronJobs = null;
+		
+		if( objects != null ) {
+			cronJobs = new ArrayList<>();
+			for(Object object : objects) {
+				cronJobs.add( (CronJob) object);
+			}
+		}
+		
+		return cronJobs;
 	}
 	
 }
