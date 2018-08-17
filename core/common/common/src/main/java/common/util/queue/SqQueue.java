@@ -85,7 +85,7 @@ public class SqQueue<E> implements IQueue<E>{
 			}
 			
 		} catch (Exception e) {
-			throw new SqQueueException("Error in removing messages from qurue (name) :" + queueName  , ErrorCode.QUEUE_ADD);
+			throw new SqQueueException("Error in removing messages from qurue (name) :" + queueName  , e, ErrorCode.QUEUE_ADD);
 		}
 	}
 

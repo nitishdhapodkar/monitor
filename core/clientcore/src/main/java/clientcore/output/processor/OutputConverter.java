@@ -33,7 +33,7 @@ public class OutputConverter {
 		OutputProcessor outputProcessor = new OutputProcessor();
 		
 		try {
-			 List<Map<String, String>> outputList = outputProcessor.processFormatedList(commandresult.getOutput());
+			 List<Map<String, String>> outputList = outputProcessor.processFormatedList(commandresult.getOutput(), commandresult.getCommandType());
 			 commandOutput = new CommandOutputVo(commandresult, new ListOutputVo(outputList));
 		} catch (SqCommandOutputProcessingException e) {
 			// TODO Auto-generated catch block

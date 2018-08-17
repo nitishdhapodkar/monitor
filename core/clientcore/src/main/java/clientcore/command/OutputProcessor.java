@@ -7,10 +7,24 @@ import java.util.Map;
 
 import clientcore.exceptions.SqCommandOutputProcessingException;
 import common.constants.ErrorCode;
+import common.jobs.CommandType;
 
 public class OutputProcessor {
 	
-	public List<Map<String, String>> processFormatedList(String commandOutput) throws SqCommandOutputProcessingException{
+	public List<Map<String, String>> processFormatedList(String commandOutput, CommandType commandType) throws SqCommandOutputProcessingException {
+		
+		List<Map<String, String>> attributesAndValues = null;
+		
+		if( commandType == CommandType.HWDINFO) {
+			attributesAndValues = formatCSVOutput(commandOutput);
+		} else if(commandType == CommandType.PROCESSES ) {
+			attributesAndValues = processFormatedList(commandOutput);
+		}
+		
+		return attributesAndValues;
+	}
+	
+	private List<Map<String, String>> processFormatedList(String commandOutput) throws SqCommandOutputProcessingException{
 		
 		List<Map<String, String>> attributesAndValues = null;
 		
@@ -44,6 +58,28 @@ public class OutputProcessor {
 		return attributesAndValues;
 	}
 	
+	private List<Map<String, String>> formatCSVOutput(String commandOutput) throws SqCommandOutputProcessingException {
+		
+		List<Map<String, String>> attributesAndValues = null;
+		List<List<String>> formattedvalues = formatCSV(commandOutput);
+		
+		try {
+			Map<String, String> headerValues = new HashMap<>();
+			
+			for(int rowNo = 0; rowNo < formattedvalues.get(0).size();  rowNo++ ) {
+				headerValues.put(formattedvalues.get(0).get(rowNo), formattedvalues.get(1).get(rowNo));
+			}
+			
+			attributesAndValues = new ArrayList<>();
+			attributesAndValues.add(headerValues);
+		} catch (Exception e) {
+			throw new SqCommandOutputProcessingException("Error in mapping header and values", ErrorCode.COMMAND_OUTPUT_LIST_PROCESS);
+		}
+		
+		
+		return attributesAndValues;
+	}
+	
 	private Map<String, String> getKeyValue(String outputLine)  throws SqCommandOutputProcessingException{
 		
 		Map<String, String> keyValue = null;
@@ -63,6 +99,35 @@ public class OutputProcessor {
 		}
 		
 		return keyValue;
+	}
+	
+	private List<List<String>> formatCSV(String csvString) throws SqCommandOutputProcessingException {
+		
+		List<List<String>> formatedValues = null;
+		try {
+			String lines[] = csvString.split("\\r?\\n");
+			
+			for(String line : lines) {
+				line = line.trim().substring(1, line.length() - 1 );
+				List<String> lineValues = new ArrayList<>();
+				String values[] = line.split("\",\"");
+				
+				for(String value : values) {
+					lineValues.add(value);
+				}
+				if( formatedValues == null ) {
+					formatedValues = new ArrayList<>();
+				}
+				formatedValues.add(lineValues);
+			}
+			
+		} catch (Exception e) {
+			throw new SqCommandOutputProcessingException("Error in spliting output line", e, ErrorCode.COMMAND_OUTPUT_LIST_PROCESS);
+		}
+		
+		
+		
+		return formatedValues;
 	}
 	
 	public static void main(String[] args) {

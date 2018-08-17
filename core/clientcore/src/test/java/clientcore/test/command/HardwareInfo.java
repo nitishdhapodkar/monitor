@@ -15,11 +15,12 @@ import clientcore.staticobjects.Startup;
 import common.exceptions.SqQueueException;
 import common.jobs.CommandType;
 
-public class Processor {
+public class HardwareInfo {
+	
 	public static void main(String[] args) {
 		try {
 			Startup.init();
-			CommandVO cmdToExecute = new CommandVO("Get-Process | Format-list", CommandType.OUT_LIST);
+			CommandVO cmdToExecute = new CommandVO("systeminfo /FO CSV", CommandType.HWDINFO);
 			GlobalQueues.commandQueue.sendMessage(QueueNames.COMMAND_IN.toString(), cmdToExecute);
 			
 			new CommandPocesser().processInputQueue();
@@ -30,7 +31,7 @@ public class Processor {
 				
 				OutputProcessor outputProcessor = new OutputProcessor();
 				try {
-					 List<Map<String, String>> lineSplit = outputProcessor.processFormatedList(result.getOutput(),CommandType.PROCESSES);
+					 List<Map<String, String>> lineSplit = outputProcessor.processFormatedList(result.getOutput(), CommandType.HWDINFO);
 					 System.out.println( new Gson().toJson( lineSplit ));
 				} catch (SqCommandOutputProcessingException e) {
 					// TODO Auto-generated catch block
@@ -43,4 +44,5 @@ public class Processor {
 			e.printStackTrace();
 		}
 	}
+
 }

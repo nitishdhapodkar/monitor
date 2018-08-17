@@ -52,7 +52,7 @@ public class CommandOutputVo {
 		
 		OutputProcessor outputProcessor = new OutputProcessor();
 		try {
-			this.formatedOutput = new ListOutputVo(outputProcessor.processFormatedList(commandOutput));
+			this.formatedOutput = new ListOutputVo(outputProcessor.processFormatedList(commandOutput, commandType));
 		} catch (SqCommandOutputProcessingException e) {
 			e.printStackTrace();
 		}
