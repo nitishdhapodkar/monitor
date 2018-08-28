@@ -76,8 +76,7 @@ public class Loader {
 			}
 			
 		} catch (SqQueueException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.info("Queue is not available");
 		}
 		
 		return commandOutputs;
