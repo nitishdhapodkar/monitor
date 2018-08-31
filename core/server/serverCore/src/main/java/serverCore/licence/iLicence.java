@@ -16,7 +16,7 @@ public interface iLicence {
 	
 	public boolean validate(String id);
 	
-	public boolean islicenceExpired(String id);
+	public boolean islicenceNotExpire(String id);
 	
 	public boolean validateNo(String id);
 

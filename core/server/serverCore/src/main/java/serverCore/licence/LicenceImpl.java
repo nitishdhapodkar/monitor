@@ -1,6 +1,7 @@
 package serverCore.licence;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -45,26 +46,28 @@ public class LicenceImpl implements iLicence{
 			}
 			licencies.add(licenceVo);
 		}
-		
 		return licencies;
 	}
 
 	@Override
 	public boolean validate(String id) {
-		// TODO Auto-generated method stub
-		return false;
+		return islicenceNotExpire(id) && validateNo(id);
 	}
 
 	@Override
-	public boolean islicenceExpired(String id) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean islicenceNotExpire(String id) {
+		LicenceVo licenceVo = get(id);
+		return licenceVo.getExpiryDate().before(new Date());
 	}
 
 	@Override
 	public boolean validateNo(String id) {
-		// TODO Auto-generated method stub
-		return false;
+		LicenceVo licenceVo = get(id);
+		return getLicenceCount(id) > licenceVo.getNoOfEndpoints();
+	}
+	
+	private int getLicenceCount(String id) {
+		return 0;
 	}
 	
 }
