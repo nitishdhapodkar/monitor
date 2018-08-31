@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface iLicence {
 	
-	public void addLicence(LicenceVo licenceVo);
+	public void add(LicenceVo licenceVo);
 	
-	public void updateLicence(LicenceVo licenceVo);
+	public void update(LicenceVo licenceVo);
 	
-	public void removeLicence(String id);
+	public void remove(String id);
 	
 	public LicenceVo get(String id);
 	

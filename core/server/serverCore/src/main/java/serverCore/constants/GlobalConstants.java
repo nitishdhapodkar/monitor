@@ -10,5 +10,10 @@ public class GlobalConstants {
 	
 	public static final int httpPortNo = 1000;
 	
+	public static final String metaMasterDatabase = "metasData";
+	
+	public static final String Collection_licence = "licence";
+	
+	public static final String Collection_machine = "machine";
 
 }
